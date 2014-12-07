@@ -1,12 +1,13 @@
 /*
 THEME NAME: veryplaintxt
-THEME URI: http://www.plaintxt.org/themes/veryplaintxt/
+THEME URI: http://www.athanasidis.me
 DESCRIPTION: A fluid two-column layout&mdash;the original &ldquo;plain text&rdquo; theme. An exceptionally clean, content-centered theme. Think <cite><a  title="Timothy McSweeny's Internet Tendency">McSweeny's</a></cite>. For WordPress 2.6.x.
-VERSION: 4.7.0
-AUTHOR: PlainTXT.org
-AUTHOR URI: http://plaintxt.org/
+VERSION: 5.0
+AUTHOR: Athanasiadis Evagelos
+AUTHOR URI: http://athanasiadis.me/
 TAGS: variable width, fixed width, two columns, widgets, theme options, options page, white, black, blue, newspaper, microformats, hatom, hcard
 */
+
 a, a:link {
 	color: #000;
 	outline: none;

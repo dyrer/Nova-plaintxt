@@ -11,7 +11,7 @@
 				<div class="entry-content">
 <?php the_content('<span class="more-link">'.__('(Continued)', 'veryplaintxt').'</span>'); ?>
 
-<?php link_pages('<div class="page-link">'.__('Pages: ', 'veryplaintxt'), "</div>\n", 'number'); ?>
+<?php wp_link_pages('<div class="page-link">'.__('Pages: ', 'veryplaintxt'), "</div>\n", 'number'); ?>
 				</div>
 				<div class="entry-meta">
 					<span class="entry-category"><?php printf(__('Filed in %s', 'veryplaintxt'), get_the_category_list(', ') ) ?></span>
