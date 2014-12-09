@@ -25,3 +25,4 @@
 	<div class="access"><span class="content-access"><a href="#content" title="<?php _e('Skip to content', 'veryplaintxt'); ?>"><?php _e('Skip to content', 'veryplaintxt'); ?></a></span></div>
 
 <?php veryplaintxt_globalnav() // Adds list of pages just below header ?>
+	

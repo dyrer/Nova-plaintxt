@@ -764,7 +764,7 @@ add_filter('archive_meta', 'convert_smilies');
 add_filter('archive_meta', 'convert_chars');
 add_filter('archive_meta', 'wpautop');
 
-add_shortcode('gallery', 'veryplaintxt_gallery', $attr);
+add_shortcode('gallery', 'veryplaintxt_gallery');
 
 // Readies for translation.
 load_theme_textdomain('veryplaintxt');
