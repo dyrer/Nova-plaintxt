@@ -1,57 +1,74 @@
-<?php get_header() ?>
+<?php get_header(); ?>
 
-	<div id="container">
-		<div id="content" class="hfeed">
+			<div id="content">
 
-<?php if (have_posts()) : ?>
+				<div id="inner-content" class="wrap cf">
 
-		<h2 class="page-title"><?php _e('Search Results for:', 'veryplaintxt') ?> <?php echo _wp_specialchars(stripslashes($_GET['s']), true); ?></h2>
+					<main id="main" class="m-all t-2of3 d-5of7 cf" role="main">
+						<h1 class="archive-title"><span><?php _e( 'Search Results for:', 'bonestheme' ); ?></span> <?php echo esc_attr(get_search_query()); ?></h1>
 
-<?php while (have_posts()) : the_post(); ?>
+						<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
-			<div id="post-<?php the_ID() ?>" class="<?php veryplaintxt_post_class() ?>">
-				<h3 class="entry-title"><a href="<?php the_permalink() ?>" title="<?php printf(__('Permalink to %s', 'veryplaintxt'), _wp_specialchars(get_the_title(), 1)) ?>" rel="bookmark"><?php the_title() ?></a></h3>
-				<div class="entry-date"><abbr class="published" title="<?php the_time('Y-m-d\TH:i:sO'); ?>"><?php unset($previousday); printf(__('%1$s', 'veryplaintxt'), the_date('l, F j, Y', false)) ?></abbr></div>
-				<div class="entry-content">
-<?php the_excerpt('<span class="more-link">'.__('(Continued)', 'veryplaintxt').'</span>') ?>
+							<article id="post-<?php the_ID(); ?>" <?php post_class('cf'); ?> role="article">
 
-				</div>
-				<div class="entry-meta">
-					<span class="entry-category"><?php printf(__('Filed in %s', 'veryplaintxt'), get_the_category_list(', ') ) ?></span>
-					<span class="meta-sep">|</span>
-					<span class="entry-tags"><?php the_tags(__('Tagged ', 'veryplaintxt'), ", ", "") ?></span>
-					<span class="meta-sep">|</span>
-<?php edit_post_link(__('Edit', 'veryplaintxt'), "\t\t\t\t\t<span class='entry-edit'>", "</span>\n\t\t\t\t\t<span class='meta-sep'>|</span>\n"); ?>
-					<span class="entry-comments"><?php comments_popup_link(__('Comments (0)', 'veryplaintxt'), __('Comments (1)', 'veryplaintxt'), __('Comments (%)', 'veryplaintxt')) ?></span>
-				</div>
-			</div><!-- .post -->
+								<header class="entry-header article-header">
 
-<?php endwhile; ?>
+									<h3 class="search-title entry-title"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h3>
 
-			<div id="nav-below" class="navigation">
-				<div class="nav-previous"><?php next_posts_link(__('&lsaquo; Older posts', 'veryplaintxt')) ?></div>
-				<div class="nav-next"><?php previous_posts_link(__('Newer posts &rsaquo;', 'veryplaintxt')) ?></div>
+                  						<p class="byline entry-meta vcard">
+                    							<?php printf( __( 'Posted %1$s by %2$s', 'bonestheme' ),
+                   							    /* the time the post was published */
+                   							    '<time class="updated entry-time" datetime="' . get_the_time('Y-m-d') . '" itemprop="datePublished">' . get_the_time(get_option('date_format')) . '</time>',
+                      							    /* the author of the post */
+                       							    '<span class="by">by</span> <span class="entry-author author" itemprop="author" itemscope itemptype="http://schema.org/Person">' . get_the_author_link( get_the_author_meta( 'ID' ) ) . '</span>'
+                    							); ?>
+                  						</p>
+
+								</header>
+
+								<section class="entry-content">
+										<?php the_excerpt( '<span class="read-more">' . __( 'Read more &raquo;', 'bonestheme' ) . '</span>' ); ?>
+
+								</section>
+
+								<footer class="article-footer">
+
+									<?php if(get_the_category_list(', ') != ''): ?>
+                  					<?php printf( __( 'Filed under: %1$s', 'bonestheme' ), get_the_category_list(', ') ); ?>
+                  					<?php endif; ?>
+
+                 					<?php the_tags( '<p class="tags"><span class="tags-title">' . __( 'Tags:', 'bonestheme' ) . '</span> ', ', ', '</p>' ); ?>
+
+								</footer> <!-- end article footer -->
+
+							</article>
+
+						<?php endwhile; ?>
+
+								<?php bones_page_navi(); ?>
+
+							<?php else : ?>
+
+									<article id="post-not-found" class="hentry cf">
+										<header class="article-header">
+											<h1><?php _e( 'Sorry, No Results.', 'bonestheme' ); ?></h1>
+										</header>
+										<section class="entry-content">
+											<p><?php _e( 'Try your search again.', 'bonestheme' ); ?></p>
+										</section>
+										<footer class="article-footer">
+												<p><?php _e( 'This is the error message in the search.php template.', 'bonestheme' ); ?></p>
+										</footer>
+									</article>
+
+							<?php endif; ?>
+
+						</main>
+
+							<?php get_sidebar(); ?>
+
+					</div>
+
 			</div>
 
-<?php else : ?>
-
-			<div id="post-0" class="post">
-				<h2 class="entry-title"><?php _e('Nothing Found', 'veryplaintxt') ?></h2>
-				<div class="entry-content">
-					<p><?php _e('Sorry, but nothing matched your search criteria. Please try again with some different keywords.', 'veryplaintxt') ?></p>
-				</div>
-			</div><!-- #post-0 .post -->
-			<form id="noresults-searchform" method="get" action="<?php bloginfo('home') ?>">
-				<div>
-					<input id="noresults-s" name="s" type="text" value="<?php echo _wp_specialchars(stripslashes($_GET['s']), true) ?>" size="40" />
-					<input id="noresults-searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Search', 'veryplaintxt') ?>" />
-				</div>
-			</form>
-
-<?php endif; ?>
-
-		</div><!-- #content .hfeed -->
-	</div><!-- #container -->
-
-<?php get_sidebar() ?>
-<?php get_footer() ?>
+<?php get_footer(); ?>

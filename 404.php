@@ -1,22 +1,43 @@
-<?php header("HTTP/1.1 404 Not Found"); ?>
-<?php get_header() ?>
+<?php get_header(); ?>
 
-	<div id="container">
-		<div id="content">
-			<div id="post-0" class="post">
-				<h2 class="entry-title"><?php _e('Not Found', 'veryplaintxt') ?></h2>
-				<div class="entry-content">
-					<p><?php _e('Apologies, but we were unable to find what you were looking for. Perhaps the search box will help.', 'veryplaintxt') ?></p>
-				</div>
-			</div><!-- #post-0 .post -->
-			<form id="error404-searchform" method="get" action="<?php bloginfo('home') ?>">
-				<div>
-					<input id="error404-s" name="s" type="text" value="<?php echo _wp_specialchars(stripslashes($_GET['s']), true) ?>" size="40" />
-					<input id="error404-searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Search', 'veryplaintxt') ?>" />
-				</div>
-			</form>
-		</div><!-- #content .hfeed -->
-	</div><!-- #container -->
+			<div id="content">
 
-<?php get_sidebar() ?>
-<?php get_footer() ?>
+				<div id="inner-content" class="wrap cf">
+
+					<main id="main" class="m-all t-2of3 d-5of7 cf" role="main" itemscope itemprop="mainContentOfPage" itemtype="http://schema.org/Blog">
+
+						<article id="post-not-found" class="hentry cf">
+
+							<header class="article-header">
+
+								<h1><?php _e( 'Epic 404 - Article Not Found', 'bonestheme' ); ?></h1>
+
+							</header>
+
+							<section class="entry-content">
+
+								<p><?php _e( 'The article you were looking for was not found, but maybe try looking again!', 'bonestheme' ); ?></p>
+
+							</section>
+
+							<section class="search">
+
+									<p><?php get_search_form(); ?></p>
+
+							</section>
+
+							<footer class="article-footer">
+
+									<p><?php _e( 'This is the 404.php template.', 'bonestheme' ); ?></p>
+
+							</footer>
+
+						</article>
+
+					</main>
+
+				</div>
+
+			</div>
+
+<?php get_footer(); ?>

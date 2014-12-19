@@ -1,58 +1,104 @@
-<?php get_header() ?>
+<?php get_header(); ?>
 
-	<div id="container">
-		<div id="content" class="hfeed">
+			<div id="content">
 
-<?php the_post() ?>
+				<div id="inner-content" class="wrap cf">
 
-<?php if ( is_day() ) : ?>
-			<h2 class="page-title"><?php printf(__('Daily Archives: <span>%s</span>', 'veryplaintxt'), get_the_time(__('F jS, Y', 'veryplaintxt'))) ?></h2>
-<?php elseif ( is_month() ) : ?>
-			<h2 class="page-title"><?php printf(__('Monthly Archives: <span>%s</span>', 'veryplaintxt'), get_the_time(__('F Y', 'veryplaintxt'))) ?></h2>
-<?php elseif ( is_year() ) : ?>
-			<h2 class="page-title"><?php printf(__('Yearly Archives: <span>%s</span>', 'veryplaintxt'), get_the_time(__('Y', 'veryplaintxt'))) ?></h2>
-<?php elseif ( is_author() ) : ?>
-			<h2 class="page-title"><?php printf(__('Author Archives: <span class="vcard"><span class="fn n">%s</span></span>', 'veryplaintxt'), get_the_author() ) ?></h2>
-			<div class="archive-meta"><?php if ( !(''== $authordata->user_description) ) : echo apply_filters('archive_meta', $authordata->user_description); endif; ?></div>
-<?php elseif ( is_category() ) : ?>
-			<h2 class="page-title"><?php _e('Category Archives:', 'veryplaintxt') ?> <span class="page-cat"><?php echo single_cat_title(); ?></span></h2>
-			<div class="archive-meta"><?php if ( !(''== category_description()) ) : echo apply_filters('archive_meta', category_description()); endif; ?></div>
-<?php elseif ( is_tag() ) : ?>
-			<h2 class="page-title"><?php _e('Tag Archives:', 'veryplaintxt') ?> <span class="tag-cat"><?php single_tag_title(); ?></span></h2>
-<?php elseif ( isset($_GET['paged']) && !empty($_GET['paged']) ) : ?>
-			<h2 class="page-title"><?php _e('Blog Archives', 'veryplaintxt') ?></h2>
-<?php endif; ?>
+						<main id="main" class="m-all t-2of3 d-5of7 cf" role="main" itemscope itemprop="mainContentOfPage" itemtype="http://schema.org/Blog">
 
-<?php rewind_posts() ?>
+							<?php if (is_category()) { ?>
+								<h1 class="archive-title h2">
+									<span><?php _e( 'Posts Categorized:', 'bonestheme' ); ?></span> <?php single_cat_title(); ?>
+								</h1>
 
-<?php while ( have_posts() ) : the_post(); ?>
+							<?php } elseif (is_tag()) { ?>
+								<h1 class="archive-title h2">
+									<span><?php _e( 'Posts Tagged:', 'bonestheme' ); ?></span> <?php single_tag_title(); ?>
+								</h1>
 
-			<div id="post-<?php the_ID() ?>" class="<?php veryplaintxt_post_class() ?>">
-				<h3 class="entry-title"><a href="<?php the_permalink() ?>" title="<?php printf(__('Permalink to %s', 'veryplaintxt'), _wp_specialchars(get_the_title(), 1)) ?>" rel="bookmark"><?php the_title() ?></a></h3>
-				<div class="entry-date"><abbr class="published" title="<?php the_time('Y-m-d\TH:i:sO'); ?>"><?php unset($previousday); printf(__('%1$s', 'veryplaintxt'), the_date('l, F j, Y', false)) ?></abbr></div>
-				<div class="entry-content">
-<?php the_excerpt('<span class="more-link">'.__('Continue reading &rsaquo;', 'veryplaintxt').'</span>') ?>
+							<?php } elseif (is_author()) {
+								global $post;
+								$author_id = $post->post_author;
+							?>
+								<h1 class="archive-title h2">
+
+									<span><?php _e( 'Posts By:', 'bonestheme' ); ?></span> <?php the_author_meta('display_name', $author_id); ?>
+
+								</h1>
+							<?php } elseif (is_day()) { ?>
+								<h1 class="archive-title h2">
+									<span><?php _e( 'Daily Archives:', 'bonestheme' ); ?></span> <?php the_time('l, F j, Y'); ?>
+								</h1>
+
+							<?php } elseif (is_month()) { ?>
+									<h1 class="archive-title h2">
+										<span><?php _e( 'Monthly Archives:', 'bonestheme' ); ?></span> <?php the_time('F Y'); ?>
+									</h1>
+
+							<?php } elseif (is_year()) { ?>
+									<h1 class="archive-title h2">
+										<span><?php _e( 'Yearly Archives:', 'bonestheme' ); ?></span> <?php the_time('Y'); ?>
+									</h1>
+							<?php } ?>
+
+							<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+
+							<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
+
+								<header class="entry-header article-header">
+
+									<h3 class="h2 entry-title"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h3>
+									<p class="byline entry-meta vcard">
+										<?php printf( __( 'Posted %1$s by %2$s', 'bonestheme' ),
+                  							     /* the time the post was published */
+                  							     '<time class="updated entry-time" datetime="' . get_the_time('Y-m-d') . '" itemprop="datePublished">' . get_the_time(get_option('date_format')) . '</time>',
+                       								/* the author of the post */
+                       								'<span class="by">by</span> <span class="entry-author author" itemprop="author" itemscope itemptype="http://schema.org/Person">' . get_the_author_link( get_the_author_meta( 'ID' ) ) . '</span>'
+                    							); ?>
+									</p>
+
+								</header>
+
+								<section class="entry-content cf">
+
+									<?php the_post_thumbnail( 'bones-thumb-300' ); ?>
+
+									<?php the_excerpt(); ?>
+
+								</section>
+
+								<footer class="article-footer">
+
+								</footer>
+
+							</article>
+
+							<?php endwhile; ?>
+
+									<?php bones_page_navi(); ?>
+
+							<?php else : ?>
+
+									<article id="post-not-found" class="hentry cf">
+										<header class="article-header">
+											<h1><?php _e( 'Oops, Post Not Found!', 'bonestheme' ); ?></h1>
+										</header>
+										<section class="entry-content">
+											<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'bonestheme' ); ?></p>
+										</section>
+										<footer class="article-footer">
+												<p><?php _e( 'This is the error message in the archive.php template.', 'bonestheme' ); ?></p>
+										</footer>
+									</article>
+
+							<?php endif; ?>
+
+						</main>
+
+					<?php get_sidebar(); ?>
 
 				</div>
-				<div class="entry-meta">
-					<span class="entry-category"><?php if ( !is_category() ) { printf(__('Filed in %s', 'veryplaintxt'), get_the_category_list(', ') ); } else { $other_cats = veryplaintxt_other_cats(', '); printf(__('Also filed in %s', 'veryplaintxt'), $other_cats ); } ?></span>
-					<span class="meta-sep">|</span>
-					<span class="entry-tags"><?php if ( !is_tag() ) { echo the_tags(__('Tagged ', 'veryplaintxt'), ", "); } else { $other_tags = veryplaintxt_other_tags(', '); printf(__('Also tagged %s', 'veryplaintxt'), $other_tags); } ?></span>
-					<span class="meta-sep">|</span>
-<?php edit_post_link(__('Edit', 'veryplaintxt'), "\t\t\t\t\t<span class='entry-edit'>", "</span>\n\t\t\t\t\t<span class='meta-sep'>|</span>\n"); ?>
-					<span class="entry-comments"><?php comments_popup_link(__('Comments (0)', 'veryplaintxt'), __('Comments (1)', 'veryplaintxt'), __('Comments (%)', 'veryplaintxt')) ?></span>
-				</div>
-			</div><!-- .post -->
 
-<?php endwhile ?>
-
-			<div id="nav-below" class="navigation">
-				<div class="nav-previous"><?php next_posts_link(__('&lsaquo; Older posts', 'veryplaintxt')) ?></div>
-				<div class="nav-next"><?php previous_posts_link(__('Newer posts &rsaquo;', 'veryplaintxt')) ?></div>
 			</div>
 
-		</div><!-- #content .hfeed -->
-	</div><!-- #container -->
-
-<?php get_sidebar() ?>
-<?php get_footer() ?>
+<?php get_footer(); ?>

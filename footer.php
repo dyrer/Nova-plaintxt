@@ -1,16 +1,34 @@
-	<div id="footer">
-		<span id="copyright">&copy; <?php echo( date('Y') ); ?> <?php veryplaintxt_admin_hCard(); ?></span>
-		<span class="meta-sep">&para;</span>
-		<span id="generator-link"><?php _e('Thanks, <a href="http://wordpress.org/" title="WordPress">WordPress</a>.', 'veryplaintxt') ?></span>
-		<span class="meta-sep">&para;</span>
-		<span id="theme-link"><a href="http://www.athanasiadis.me/" title="Nova Plaintxt theme for WordPress" rel="follow designer">veryplaintxt</a> <?php _e('theme by', 'Nova veryplaintxt') ?> <span class="vcard"><a class="url fn n"  title="plaintxt.org" rel="follow designer">PlainTXT.org</a></span>.</span>
-		<span class="meta-sep">&para;</span>
-		<span id="web-standards"><?php _e('It\'s nice', 'veryplaintxt') ?> <a href="http://validator.w3.org/check/referer" title="Valid XHTML">XHTML</a> &amp; <a href="http://jigsaw.w3.org/css-validator/validator?profile=css2&amp;warning=2&amp;uri=<?php bloginfo('stylesheet_url'); ?>" title="Valid CSS">CSS</a>.</span>
-	</div><!-- #footer -->
+			<footer class="footer" role="contentinfo" itemscope itemtype="http://schema.org/WPFooter">
 
-<?php wp_footer() // Do not remove; helps plugins work ?>
+				<div id="inner-footer" class="wrap cf">
 
-</div><!-- #wrapper -->
+					<nav role="navigation">
+						<?php wp_nav_menu(array(
+    					'container' => '',                              // remove nav container
+    					'container_class' => 'footer-links cf',         // class of container (should you choose to use it)
+    					'menu' => __( 'Footer Links', 'bonestheme' ),   // nav name
+    					'menu_class' => 'nav footer-nav cf',            // adding custom nav class
+    					'theme_location' => 'footer-links',             // where it's located in the theme
+    					'before' => '',                                 // before the menu
+        			'after' => '',                                  // after the menu
+        			'link_before' => '',                            // before each link
+        			'link_after' => '',                             // after each link
+        			'depth' => 0,                                   // limit the depth of the nav
+    					'fallback_cb' => 'bones_footer_links_fallback'  // fallback function
+						)); ?>
+					</nav>
 
-</body><!-- end trasmission -->
-</html>
+					<p class="source-org copyright">&copy; <?php echo date('Y'); ?> <?php bloginfo( 'name' ); ?>.</p>
+
+				</div>
+
+			</footer>
+
+		</div>
+
+		<?php // all js scripts are loaded in library/bones.php ?>
+		<?php wp_footer(); ?>
+
+	</body>
+
+</html> <!-- end of site. what a ride! -->

@@ -1,52 +1,54 @@
 <?php get_header(); ?>
 
-	<div id="container">
-		<div id="content" class="hfeed">
+			<div id="content">
 
-<?php the_post(); ?>
+				<div id="inner-content" class="wrap cf">
 
-			<div id="post-<?php the_ID(); ?>" class="<?php veryplaintxt_post_class(); ?>">
-				<h2 class="entry-title"><?php the_title(); ?></h2>
-				<div class="entry-content">
-<?php the_content('<span class="more-link">'.__('Read More', 'veryplaintxt').'</span>'); ?>
+					<main id="main" class="m-all t-2of3 d-5of7 cf" role="main" itemscope itemprop="mainContentOfPage" itemtype="http://schema.org/Blog">
 
-<?php wp_link_pages('<div class="page-link">'.__('Pages: ', 'veryplaintxt'), "</div>\n", 'number'); ?>
+						<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+
+							<?php
+								/*
+								 * Ah, post formats. Nature's greatest mystery (aside from the sloth).
+								 *
+								 * So this function will bring in the needed template file depending on what the post
+								 * format is. The different post formats are located in the post-formats folder.
+								 *
+								 *
+								 * REMEMBER TO ALWAYS HAVE A DEFAULT ONE NAMED "format.php" FOR POSTS THAT AREN'T
+								 * A SPECIFIC POST FORMAT.
+								 *
+								 * If you want to remove post formats, just delete the post-formats folder and
+								 * replace the function below with the contents of the "format.php" file.
+								*/
+								get_template_part( 'post-formats/format', get_post_format() );
+							?>
+
+						<?php endwhile; ?>
+
+						<?php else : ?>
+
+							<article id="post-not-found" class="hentry cf">
+									<header class="article-header">
+										<h1><?php _e( 'Oops, Post Not Found!', 'bonestheme' ); ?></h1>
+									</header>
+									<section class="entry-content">
+										<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'bonestheme' ); ?></p>
+									</section>
+									<footer class="article-footer">
+											<p><?php _e( 'This is the error message in the single.php template.', 'bonestheme' ); ?></p>
+									</footer>
+							</article>
+
+						<?php endif; ?>
+
+					</main>
+
+					<?php get_sidebar(); ?>
+
 				</div>
 
-				<div class="entry-meta">
-					<?php printf(__('This was written by %1$s. Posted on <abbr class="published" title="%2$s">%3$s at %4$s</abbr>. Filed under %5$s. %6$sBookmark the <a href="%7$s" title="Permalink to %8$s" rel="bookmark">permalink</a>. Follow comments here with the <a href="%9$s" title="Comments RSS to %8$s" rel="alternate" type="application/rss+xml">RSS feed</a>.', 'sandbox'),
-						'<span class="vcard"><span class="fn n">' . $authordata->display_name . '</span></span>',
-						get_the_time('Y-m-d\TH:i:sO'),
-						the_date('l, F j, Y,', '', '', false),
-						get_the_time(),
-						get_the_category_list(', '),
-						get_the_tag_list('Tagged ', ', ', '. '),
-						get_permalink(),
-						_wp_specialchars(get_the_title(), 'double'),
-						esc_url( get_post_comments_feed_link() ) ) ?>
-<?php if (('open' == $post-> comment_status) && ('open' == $post->ping_status)) : ?>
-					<?php printf(__('<a href="#respond" title="Post a comment">Post a comment</a> or leave a <a href="%s" rel="trackback" title="Trackback URL for your post">trackback</a>.', 'veryplaintxt'), get_trackback_url()) ?>
-<?php elseif (!('open' == $post-> comment_status) && ('open' == $post->ping_status)) : ?>
-					<?php printf(__('Comments are closed, but you can leave a <a href="%s" rel="trackback" title="Trackback URL for your post">trackback</a>.', 'veryplaintxt'), get_trackback_url()) ?>
-<?php elseif (('open' == $post-> comment_status) && !('open' == $post->ping_status)) : ?>
-					<?php printf(__('Trackbacks are closed, but you can <a href="#respond" title="Post a comment">post a comment</a>.', 'veryplaintxt')) ?>
-<?php elseif (!('open' == $post-> comment_status) && !('open' == $post->ping_status)) :?>
-					<?php _e('Both comments and trackbacks are currently closed.', 'veryplaintxt') ?>
-<?php endif; ?>
-
-<?php edit_post_link(__('Edit this entry.', 'veryplaintxt'),'',''); ?>
-				</div>
-			</div><!-- .post -->
-
-<?php comments_template(); ?>
-
-			<div id="nav-below" class="navigation">
-				<div class="nav-previous"><?php previous_post_link(__('&lsaquo; %link', 'veryplaintxt')) ?></div>
-				<div class="nav-next"><?php next_post_link(__('%link &rsaquo;', 'veryplaintxt')) ?></div>
 			</div>
 
-		</div><!-- #content .hfeed -->
-	</div><!-- #container -->
-
-<?php get_sidebar() ?>
-<?php get_footer() ?>
+<?php get_footer(); ?>

@@ -1,28 +1,77 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes() ?>>
-<head profile="http://gmpg.org/xfn/11">
-	<title><?php get_bloginfo('name') ?><?php if ( is_404() ) : ?> &rsaquo; <?php _e('Page not found', 'veryplaintxt') ?><?php elseif ( is_home() ) : ?> &rsaquo; <?php get_bloginfo('description') ?><?php elseif ( is_category() ) : ?> &rsaquo; <?php echo single_cat_title(); ?><?php elseif ( is_date() ) : ?> &rsaquo; <?php _e('Blog archives', 'veryplaintxt') ?><?php elseif ( is_search() ) : ?> &rsaquo; <?php _e('Search results', 'veryplaintxt') ?><?php else : ?> &rsaquo; <?php the_title() ?><?php endif ?></title>
-	<meta http-equiv="content-type" content="<?php bloginfo('html_type') ?>; charset=<?php bloginfo('charset') ?>" />
-	<link rel="stylesheet" type="text/css" media="screen,projection" href="<?php bloginfo('stylesheet_url'); ?>" title="veryplaintxt" />
-	<link rel="stylesheet" type="text/css" media="print" href="<?php bloginfo('template_directory'); ?>/print.css" />
-	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo('rss2_url') ?>" title="<?php bloginfo('name') ?> RSS feed" />
-	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo('comments_rss2_url') ?>" title="<?php bloginfo('name') ?> comments RSS feed" />
-	<link rel="pingback" href="<?php bloginfo('pingback_url') ?>" />
+<!doctype html>
 
-<?php wp_head() // Do not remove; helps plugins work ?>
+<!--[if lt IE 7]><html <?php language_attributes(); ?> class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html <?php language_attributes(); ?> class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html <?php language_attributes(); ?> class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--> <html <?php language_attributes(); ?> class="no-js"><!--<![endif]-->
 
-</head>
+	<head>
+		<meta charset="utf-8">
 
-<body class="<?php veryplaintxt_body_class() ?>">
+		<?php // force Internet Explorer to use the latest rendering engine available ?>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<div id="wrapper">
+		<title><?php wp_title(''); ?></title>
 
-	<div id="header">
-		<h1 id="blog-title">
-            <h1 id="blog-title"><a href="<?php echo get_option('home') ?>/" title="<?php bloginfo('name') ?>"><?php bloginfo('name') ?></a></h1>
-		<div id="blog-description"><?php bloginfo('description') ?></div>
-	</div><!-- #header -->
-	
-	<div class="access"><span class="content-access"><a href="#content" title="<?php _e('Skip to content', 'veryplaintxt'); ?>"><?php _e('Skip to content', 'veryplaintxt'); ?></a></span></div>
+		<?php // mobile meta (hooray!) ?>
+		<meta name="HandheldFriendly" content="True">
+		<meta name="MobileOptimized" content="320">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<?php veryplaintxt_globalnav() // Adds list of pages just below header ?>
+		<?php // icons & favicons (for more: http://www.jonathantneal.com/blog/understand-the-favicon/) ?>
+		<link rel="apple-touch-icon" href="<?php echo get_template_directory_uri(); ?>/library/images/apple-icon-touch.png">
+		<link rel="icon" href="<?php echo get_template_directory_uri(); ?>/favicon.png">
+		<!--[if IE]>
+			<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico">
+		<![endif]-->
+		<?php // or, set /favicon.ico for IE10 win ?>
+		<meta name="msapplication-TileColor" content="#f01d4f">
+		<meta name="msapplication-TileImage" content="<?php echo get_template_directory_uri(); ?>/library/images/win8-tile-icon.png">
+            <meta name="theme-color" content="#121212">
+
+		<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>">
+
+		<?php // wordpress head functions ?>
+		<?php wp_head(); ?>
+		<?php // end of wordpress head ?>
+
+		<?php // drop Google Analytics Here ?>
+		<?php // end analytics ?>
+
+	</head>
+
+	<body <?php body_class(); ?> itemscope itemtype="http://schema.org/WebPage">
+
+		<div id="container">
+
+			<header class="header" role="banner" itemscope itemtype="http://schema.org/WPHeader">
+
+				<div id="inner-header" class="wrap cf">
+
+					<?php // to use a image just replace the bloginfo('name') with your img src and remove the surrounding <p> ?>
+					<p id="logo" class="h1" itemscope itemtype="http://schema.org/Organization"><a href="<?php echo home_url(); ?>" rel="nofollow"><?php bloginfo('name'); ?></a></p>
+
+					<?php // if you'd like to use the site description you can un-comment it below ?>
+					<?php // bloginfo('description'); ?>
+
+
+					<nav role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+						<?php wp_nav_menu(array(
+    					         'container' => false,                           // remove nav container
+    					         'container_class' => 'menu cf',                 // class of container (should you choose to use it)
+    					         'menu' => __( 'The Main Menu', 'bonestheme' ),  // nav name
+    					         'menu_class' => 'nav top-nav cf',               // adding custom nav class
+    					         'theme_location' => 'main-nav',                 // where it's located in the theme
+    					         'before' => '',                                 // before the menu
+        			               'after' => '',                                  // after the menu
+        			               'link_before' => '',                            // before each link
+        			               'link_after' => '',                             // after each link
+        			               'depth' => 0,                                   // limit the depth of the nav
+    					         'fallback_cb' => ''                             // fallback function (if there is one)
+						)); ?>
+
+					</nav>
+
+				</div>
+
+			</header>
